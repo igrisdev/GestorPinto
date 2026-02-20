@@ -1,3 +1,4 @@
+
 import { ResourceCard } from '@/components/ResourceCard';
 import { Resource } from '@/types/resource';
 
