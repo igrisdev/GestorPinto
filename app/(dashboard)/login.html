@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unimayor - Sistema de Usuarios</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .title-separator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .title-separator span {
+            background: #f0f0f0;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+        }
+
+        .forgot-password {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 14px;
+            display: none;
+        }
+
+        .success-message {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 14px;
+            display: none;
+        }
+
+        hr {
+            margin: 25px 0 0 0;
+            border: none;
+            border-top: 1px solid #e1e1e1;
+        }
+
+        /* Token oculto */
+        #token {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>Unimayor</h1>
+            <p>Sistema de Usuarios</p>
+        </div>
+
+        <div class="title-separator">
+            <span>Iniciar Sesión</span>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <!-- Campo oculto para el token -->
+        <input type="hidden" id="token" value="">
+
+        <!-- FORMULARIO DE LOGIN -->
+        <form id="loginForm">
+            <div class="form-group">
+                <label>📧 Correo</label>
+                <input type="email" id="loginCorreo" placeholder="correo@unimayor.edu.co" required>
+            </div>
+
+            <div class="form-group">
+                <label>🔑 Contraseña</label>
+                <input type="password" id="loginPassword" placeholder="Ingresa tu contraseña" required>
+            </div>
+
+            <div class="remember-forgot">
+                <div class="remember-me">
+                    <input type="checkbox" id="rememberLogin">
+                    <label for="rememberLogin">Recordarme</label>
+                </div>
+                <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <button type="submit" class="login-btn">Iniciar Sesión</button>
+        </form>
+
+        <hr>
+    </div>
+
+    <script>
+        // Variable para el estado del usuario
+        let userIsLoggedIn = false;
+
+        // Base de datos local (para pruebas sin servidor)
+        const usuarios = [
+            {
+                "Estado": "Listo",
+                "Nombre": "Laura Sofía Torres",
+                "Correo": "lstorres@unimayor.edu.co",
+                "Contraseña": "456",
+                "Clase": "Electiva V"
+            },
+            {
+                "Estado": "En proceso",
+                "Nombre": "Carlos Andrés Ruiz",
+                "Correo": "caruiz@unimayor.edu.co",
+                "Contraseña": "789",
+                "Clase": "Programación IV"
+            },
+            {
+                "Estado": "Listo",
+                "Nombre": "Johan Manuel Alvarez Pinta",
+                "Correo": "jmalvarez@unimayor.edu.co",
+                "Contraseña": "123",
+                "Clase": "Electiva V"
+            }
+        ];
+
+        // Evento del formulario de login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Obtener valores del formulario
+            const correo = document.getElementById('loginCorreo').value;
+            const password = document.getElementById('loginPassword').value;
+            const errorMsg = document.getElementById('errorMessage');
+            const successMsg = document.getElementById('successMessage');
+            
+            // Ocultar mensajes anteriores
+            errorMsg.style.display = 'none';
+            successMsg.style.display = 'none';
+            
+            // Validar campos vacíos
+            if(!correo || !password) {
+                errorMsg.textContent = 'Por favor, completa todos los campos';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            // Verificar con base de datos local (simulación)
+            const usuarioEncontrado = usuarios.find(u => 
+                u.Correo.toLowerCase() === correo.toLowerCase() && 
+                u.Contraseña === password
+            );
+
+            if (usuarioEncontrado) {
+                // Usuario autenticado
+                userIsLoggedIn = true;
+                
+                // Mostrar mensaje de éxito
+                successMsg.textContent = `¡Bienvenido ${usuarioEncontrado.Nombre}! Conectando...`;
+                successMsg.style.display = 'block';
+                
+                // Credenciales para enviar al servidor
+                var credentials = {
+                    username: correo,
+                    password: password
+                };
+
+                console.log('📤 Enviando credenciales al servidor:', credentials);
+
+                // Llamada AJAX al servidor
+                $.ajax({
+                    url: '/api/login', // Endpoint de tu backend
+                    type: 'POST',
+                    data: credentials,
+                    success: function(response) {
+                        console.log('✅ Respuesta del servidor:', response);
+                        
+                        // Actualizar estado según respuesta
+                        userIsLoggedIn = response.isLoggedIn || true;
+                        
+                        // Guardar token si viene en la respuesta
+                        if (response.token) {
+                            document.getElementById('token').value = response.token;
+                        }
+                        
+                        // Guardar usuario en sessionStorage
+                        sessionStorage.setItem('usuarioActual', JSON.stringify(usuarioEncontrado));
+                        
+                        // Redirigir a page.tsx
+                        window.location.href = '/page.tsx';
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('❌ Error en la petición:', error);
+                        
+                        // Si hay error pero ya validamos localmente, redirigir igual
+                        sessionStorage.setItem('usuarioActual', JSON.stringify(usuarioEncontrado));
+                        window.location.href = '/page.tsx';
+                    }
+                });
+            } else {
+                // Usuario no encontrado
+                errorMsg.textContent = 'Correo o contraseña incorrectos';
+                errorMsg.style.display = 'block';
+                document.getElementById('loginPassword').value = '';
+                
+                // Verificar si el usuario está autorizado
+                if (!userIsLoggedIn) {
+                    console.log('❌ Usuario no autorizado');
+                }
+            }
+        });
+
+        // Ocultar errores al escribir
+        document.getElementById('loginCorreo').addEventListener('input', function() {
+            document.getElementById('errorMessage').style.display = 'none';
+        });
+
+        document.getElementById('loginPassword').addEventListener('input', function() {
+            document.getElementById('errorMessage').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
