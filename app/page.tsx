@@ -1,21 +1,13 @@
 
 import { ResourceCard } from '@/components/ResourceCard';
 import { Resource } from '@/types/resource';
+import { getLinks } from './lib/notion';
 
-export default function RecursosPage() {
+export default async function RecursosPage() {
   // Este es el array que después vendrá de tu base de datos de Notion
-  const resources: Resource[] = [
-    {
-      title: "Proyecto Alpha",
-      description: "Planificación del primer trimestre de desarrollo.",
-      link: "https://notion.so/..."
-    },
-    {
-      title: "Guía de Estilo",
-      description: "Documentación de colores y componentes UI.",
-      link: "https://notion.so/..."
-    }
-  ];
+  const resources: Resource[] = await getLinks();
+
+  console.log(resources); // Para verificar que estás obteniendo los datos correctamentes
 
   return (
     <main style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
