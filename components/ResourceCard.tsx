@@ -1,6 +1,6 @@
 import { Resource } from '../types/resource';
 
-export const ResourceCard = ({ title, description, link }: Resource) => {
+export const ResourceCard = ({ title, description, link }: Omit<Resource, 'id'>) => {
   return (
     <div style={{
       border: '1px solid #eaeaea',
