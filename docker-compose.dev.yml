@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  nextjs:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3002:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - NOTION_TOKEN=${NOTION_TOKEN}
+      - NOTION_LINK_ID=${NOTION_LINK_ID}
+      - DATABASE_USUARIOS_ID=${DATABASE_USUARIOS_ID}
