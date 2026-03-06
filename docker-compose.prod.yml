@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   nextjs:
     build:
@@ -8,7 +6,7 @@ services:
     ports:
       - "3002:3000"
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=production 
       - NOTION_TOKEN=${NOTION_TOKEN}
       - NOTION_LINK_ID=${NOTION_LINK_ID}
       - DATABASE_USUARIOS_ID=${DATABASE_USUARIOS_ID}
