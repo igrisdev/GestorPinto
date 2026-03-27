@@ -27,6 +27,7 @@ export default function RecursosPage() {
   };
 
   // --- INTERFAZ DE LOGIN ---
+  
   if (!user) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
