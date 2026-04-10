@@ -25,5 +25,5 @@ jobs:
             git fetch
             git checkout ${{ secrets.MAIN_BRANCH}}
             git pull
-            docker compose -f docker-compose.prod.yml up --build
+            docker compose -f docker-compose.prod.yml up --build -d
             exit
