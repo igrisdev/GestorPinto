@@ -48,7 +48,7 @@ export default function RecursosPage() {
               </label>
               <input
                 type="email"
-                placeholder="pepito@unimayor.edu.co"
+                placeholder="perroooo@unimayor.edu.co"
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-slate-900 placeholder:text-gray-400 focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all outline-none"
                 required
