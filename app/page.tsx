@@ -25,8 +25,6 @@ export default function RecursosPage() {
     }
     setLoading(false);
   };
-
-  // --- INTERFAZ DE LOGIN ---
   
   if (!user) {
     return (
