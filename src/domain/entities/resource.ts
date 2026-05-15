@@ -1,6 +1,7 @@
 export interface Resource {
-  id:string;
+  id: string;
   title: string;
   description: string;
   link: string;
+  clase?: string;
 }
