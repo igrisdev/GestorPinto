@@ -1,5 +1,8 @@
 "use server";
 
+import type { LoginResponse } from "@/types/user";
+import type { Resource } from "@/types/resource";
+
 // Tu función base usando fetch
 export async function notion(url: string, body?: any) {
   const token = process.env.NOTION_TOKEN;
@@ -41,7 +44,7 @@ export const getPageContent = async (pageId: string) => {
 };
 
 // Función para traer los links
-export const getLinks = async (claseUsuario: string) => {
+export const getLinks = async (claseUsuario: string): Promise<Resource[]> => {
   try {
     const databaseId = process.env.NOTION_LINK_ID;
     const url = `https://api.notion.com/v1/databases/${databaseId}/query`;
@@ -78,7 +81,7 @@ export const getLinks = async (claseUsuario: string) => {
 };
 
 // Función para el Login
-export const loginUser = async (email: string, password: string) => {
+export const loginUser = async (email: string, password: string): Promise<LoginResponse> => {
   try {
     const databaseId = process.env.DATABASE_USUARIOS_ID;
     const url = `https://api.notion.com/v1/databases/${databaseId}/query`;
