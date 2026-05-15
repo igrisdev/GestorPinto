@@ -25,8 +25,7 @@ export default function RecursosPage() {
     }
     setLoading(false);
   };
-
-  // --- INTERFAZ DE LOGIN ---
+  
   if (!user) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
@@ -42,27 +41,27 @@ export default function RecursosPage() {
 
           <form onSubmit={handleLogin} className="p-8 space-y-6">
             <div>
-              <label className="block text-sm font-medium mb-1">
+              <label className="block text-sm font-medium mb-1 text-slate-700">
                 Correo Institucional
               </label>
               <input
                 type="email"
-                placeholder="ejemplo@unimayor.edu.co"
+                placeholder="unico@unimayor.edu.co"
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all outline-none"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-slate-900 placeholder:text-gray-400 focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all outline-none"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">
+              <label className="block text-sm font-medium mb-1 text-slate-700">
                 Contraseña
               </label>
               <input
                 type="password"
                 placeholder="••••••••"
                 onChange={(e) => setPass(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all outline-none"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-slate-900 placeholder:text-gray-400 focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all outline-none"
                 required
               />
             </div>
